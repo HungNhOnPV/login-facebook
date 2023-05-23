@@ -20,8 +20,9 @@ export class FacebookStrategy extends PassportStrategy(Strategy, "facebook") {
     profile: Profile,
     done: (err: any, user: any, info?: any) => void
   ): Promise<any> {
-    const { name, emails } = profile;
+    const { id, name, emails } = profile;
     const user = {
+      id,
       email: emails && emails[0] ? emails[0].value : '',
       firstName: name.givenName,
       lastName: name.familyName,
@@ -29,6 +30,7 @@ export class FacebookStrategy extends PassportStrategy(Strategy, "facebook") {
     const payload = {
       user,
       accessToken,
+      refreshToken,
     };
 
     done(null, payload);
